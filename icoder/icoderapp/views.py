@@ -2,6 +2,13 @@ from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
+from .models import Contact
+from .models import Blogs
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core import mail
+from django.core.mail.message import EmailMessage
+
 # Create your views here.
 def index(request):
     return render(request,'home.html')
@@ -68,14 +75,35 @@ def about(request):
     return render(request,'about.html')
 
 def contact(request):
+    if request.method == "POST":
+        name=request.POST.get("name")
+        email=request.POST.get("email")
+        phonenumber=request.POST.get("phone")
+        description=request.POST.get("desc")
+        myquery=Contact(name=name,email=email,phonenumber=phonenumber,desc=description)
+        myquery.save()
+#   Email sending starts from here
+        from_email= settings.EMAIL_HOST_USER
+        connection= mail.get_connection()
+        connection.open()
+        phonenumber=request.POST.get("phone")
+        email_message=mail.EmailMessage(f'Email From {name}',f'UserEmail : {email}\nUserPhoneNumber : {phonenumber}\nDescription:  {description}',from_email,['aneesrehman95567@gmail.com'],connection=connection)
+
+        email_message_client=mail.EmailMessage(f'ARKPROCODER RESPONSE',f'Dear {name}\n\nThanks For Reaching Us\nWe will Get Back You Soon',from_email,[email],connection=connection)
+        connection.send_messages([email_message,email_message_client])
+        connection.close()
+        messages.info(request,"Your Response Has been Recorded Thanks For Reaching Us.")
+
+     
     return render(request,'contact.html')
 
 def blog(request):
     if not request.user.is_authenticated:
         messages.warning(request,"Please Login and Try Again")
         return redirect('/login')
-
-    return render(request,'blog.html')
+    blog=Blogs.objects.all()
+    context = {"blog":blog}
+    return render(request,'blog.html',context)
 
 def portfolio(request):
     return render(request,'portfolio.html')

@@ -2,9 +2,49 @@
 {% block title %}
 contact    
 {% endblock title %}
+{% block contact %} active   {% endblock contact %}
 {% block body %}
 
+<div class="container mt-3">
+
+<div class="row">
+<div class="col-md-4 bg-light">
+
+
+<h4 class="text-success bg-light text-center">Contact Us</h4>
 <br>
-<h1>This is my contact page</h1>
+<form action="/contact" method="post">{% csrf_token %}
+
+<div class="form-group">
+
+<input type="text" class="form-control" name="name" required  placeholder="Enter Your Name">
+</div>
+<br>
+
+<div class="form-group">
+
+<input type="email" class="form-control" name="email" value="{{user.email}}"  required  placeholder="Enter Your Email">
+</div>
+<br>
+<div class="form-group">
+
+<input type="number" class="form-control" name="phone" required  placeholder="Enter Your Phone Number">
+</div>
+<br>
+<div class="form-group">
+<label for="">How can i Help You ?</label>
+<textarea type="text" class="form-control" name="desc"  required> </textarea> 
+</div>
+<br>
+<button type="submit" class="btn btn-success btn-sm btn-block">Submit</button>
+
+</form>
+
+</div>
+<div class="col-md-6"></div>
+
+</div>
+
+</div>
 
 {% endblock body %}
