@@ -1,0 +1,31 @@
+#arlogo {
+    height: 64px;
+    width: 64px;
+    border-radius: 5px 40px 40px 10px;
+}
+
+.name {
+    color: blueviolet;
+    background-color: black;
+    text-align: center;
+    font-family: cursive;
+}
+
+.desg {
+    color: yellow;
+    text-align: center;
+    background-color: black;
+    font-family: cursive;
+}
+
+#college {
+    color: green;
+    text-align: center;
+    background-color: black;
+    font-family: cursive;
+}
+
+.myfooter {
+    background-color: black;
+    height: 100px;
+}
